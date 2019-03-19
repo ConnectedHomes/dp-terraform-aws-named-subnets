@@ -156,3 +156,9 @@ variable "eni_id" {
   default     = ""
   description = "An ID of a network interface which is used as a default route in private route tables (_e.g._ `eni-9c26a123`)"
 }
+
+variable "map_public_ip" {
+  default = "false"
+  description = "Optional - Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is false"
+}
+
