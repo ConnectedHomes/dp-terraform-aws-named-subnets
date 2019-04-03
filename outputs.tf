@@ -19,13 +19,13 @@ output "subnet_ids" {
 }
 
 output "private_subnet_ids" {
-  value       = ["${aws_subnet.private.*.id}"]
-  description = "Private Subnet IDs"
+  value       = "${aws_subnet.private.id}"
+  description = "Private Subnet ID"
 }
 
-output "public_subnet_ids" {
-  value       = ["${aws_subnet.public.*.id}"]
-  description = "Public Subnet IDs"
+output "public_subnet_id" {
+  value       = "${aws_subnet.public.id}"
+  description = "Public Subnet ID"
 }
 
 output "route_table_ids" {
