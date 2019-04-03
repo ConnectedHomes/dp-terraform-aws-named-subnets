@@ -18,6 +18,16 @@ output "subnet_ids" {
   description = "Subnet IDs"
 }
 
+output "private_subnet_ids" {
+  value       = ["${aws_subnet.private.*.id}"]
+  description = "Private Subnet IDs"
+}
+
+output "public_subnet_ids" {
+  value       = ["${aws_subnet.public.*.id}"]
+  description = "Public Subnet IDs"
+}
+
 output "route_table_ids" {
   value       = ["${coalescelist(aws_route_table.public.*.id, aws_route_table.private.*.id)}"]
   description = "Route Table IDs"
