@@ -24,7 +24,7 @@ resource "aws_subnet" "public" {
   tags = "${merge(
     var.tags,
     map(
-       "Name", "${var.name}${var.delimeter}${element(var.subnet_names, count.index)}",
+       "Name", "${var.name}${var.delimiter}${element(var.subnet_names, count.index)}",
        "Named", "${element(var.subnet_names, count.index)}",
        "Type", "${var.type}"
     )
@@ -38,7 +38,7 @@ resource "aws_route_table" "public" {
   tags = "${merge(
     var.tags,
     map(
-       "Name", "${var.name}${var.delimeter}${element(var.subnet_names, count.index)}"
+       "Name", "${var.name}${var.delimiter}${element(var.subnet_names, count.index)}"
     )
   )}"
 }
