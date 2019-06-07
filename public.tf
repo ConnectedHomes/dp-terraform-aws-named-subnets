@@ -62,7 +62,7 @@ resource "aws_network_acl" "public" {
   subnet_ids = ["${aws_subnet.public.*.id}"]
   egress     = "${var.public_network_acl_egress}"
   ingress    = "${var.public_network_acl_ingress}"
-  tags       = "${module.public_label.tags}"
+  tags       = "${var.tags}"
 }
 
 resource "aws_eip" "default" {
@@ -78,7 +78,7 @@ resource "aws_nat_gateway" "default" {
   count         = "${local.ngw_count}"
   allocation_id = "${join("", aws_eip.default.*.id)}"
   subnet_id     = "${element(aws_subnet.public.*.id, 0)}"
-  tags          = "${module.public_label.tags}"
+  tags          = "${var.tags}"
 
   lifecycle {
     create_before_destroy = true
