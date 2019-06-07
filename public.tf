@@ -3,16 +3,16 @@ locals {
   ngw_count    = "${var.enabled == "true" && var.type == "public" && var.nat_enabled == "true" ? 1 : 0}"
 }
 
-module "public_label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.1"
-  namespace  = "${var.namespace}"
-  name       = "${var.name}"
-  stage      = "${var.stage}"
-  delimiter  = "${var.delimiter}"
-  tags       = "${var.tags}"
-  attributes = ["${compact(concat(var.attributes, list("public")))}"]
-  enabled    = "${var.enabled}"
-}
+#module "public_label" {
+#  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.1"
+#  namespace  = "${var.namespace}"
+#  name       = "${var.name}"
+#  stage      = "${var.stage}"
+#  delimiter  = "${var.delimiter}"
+#  tags       = "${var.tags}"
+#  attributes = ["${compact(concat(var.attributes, list("public")))}"]
+#  enabled    = "${var.enabled}"
+#}
 
 resource "aws_subnet" "public" {
   count             = "${local.public_count}"
@@ -21,24 +21,26 @@ resource "aws_subnet" "public" {
   cidr_block        = "${cidrsubnet(var.cidr_block, ceil(log(var.max_subnets, 2)), count.index)}"
   map_public_ip_on_launch = "${var.map_public_ip}"
 
-  tags = {
-    "Name"      = "${module.public_label.id}${var.delimiter}${element(var.subnet_names, count.index)}"
-    "Stage"     = "${module.public_label.stage}"
-    "Namespace" = "${module.public_label.namespace}"
-    "Named"     = "${element(var.subnet_names, count.index)}"
-    "Type"      = "${var.type}"
-  }
+  tags = "${merge(
+    var.tags,
+    map(
+       "Name", "${var.name}${var.delimeter}${element(var.subnet_names, count.index)}",
+       "Named", "${element(var.subnet_names, count.index)}",
+       "Type", "${var.type}"
+    )
+  )}"
 }
 
 resource "aws_route_table" "public" {
   count  = "${local.public_count}"
   vpc_id = "${var.vpc_id}"
 
-  tags = {
-    "Name"      = "${module.public_label.id}${var.delimiter}${element(var.subnet_names, count.index)}"
-    "Stage"     = "${module.public_label.stage}"
-    "Namespace" = "${module.public_label.namespace}"
-  }
+  tags = "${merge(
+    var.tags,
+    map(
+       "Name", "${var.name}${var.delimeter}${element(var.subnet_names, count.index)}"
+    )
+  )}"
 }
 
 resource "aws_route" "public" {

@@ -2,17 +2,6 @@ locals {
   private_count = "${var.enabled == "true" && var.type == "private" ? length(var.subnet_names) : 0}"
 }
 
-##module "private_label" {
-#  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.1"
-#  namespace  = "${var.namespace}"
-#  name       = "${var.name}"
-#  stage      = "${var.stage}"
-#  delimiter  = "${var.delimiter}"
-#  tags       = "${var.tags}"
-#  attributes = ["${compact(concat(var.attributes, list("private")))}"]
-#  enabled    = "${var.enabled}"
-#}
-
 resource "aws_subnet" "private" {
   count             = "${local.private_count}"
   vpc_id            = "${var.vpc_id}"
@@ -22,7 +11,7 @@ resource "aws_subnet" "private" {
   tags = "${merge(
     var.tags,
     map(
-       "Name", "${module.private_label.id}${var.delimiter}${element(var.subnet_names, count.index)}",
+       "Name", "${var.name}${var.delimeter}${element(var.subnet_names, count.index)}",
        "Named", "${element(var.subnet_names, count.index)}",
        "Type", "${var.type}"
     )
@@ -36,7 +25,7 @@ resource "aws_route_table" "private" {
   tags = "${merge(
     var.tags,
     map(
-      "Name", "${module.private_label.id}${var.delimiter}${element(var.subnet_names, count.index)}"
+      "Name", "${var.name}${var.delimiter}${element(var.subnet_names, count.index)}"
     )
   )}"
 }
