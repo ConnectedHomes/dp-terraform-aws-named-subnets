@@ -80,7 +80,6 @@ variable "private_network_acl_id" {
 
 variable "public_network_acl_egress" {
   description = "Egress network ACL rules"
-  type        = list(string)
 
   default = [
     {
@@ -96,7 +95,6 @@ variable "public_network_acl_egress" {
 
 variable "public_network_acl_ingress" {
   description = "Egress network ACL rules"
-  type        = list(string)
 
   default = [
     {
@@ -112,7 +110,6 @@ variable "public_network_acl_ingress" {
 
 variable "private_network_acl_egress" {
   description = "Egress network ACL rules"
-  type        = list(string)
 
   default = [
     {
@@ -128,7 +125,6 @@ variable "private_network_acl_egress" {
 
 variable "private_network_acl_ingress" {
   description = "Egress network ACL rules"
-  type        = list(string)
 
   default = [
     {
