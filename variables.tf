@@ -1,38 +1,38 @@
 variable "namespace" {
   description = "Namespace (e.g. `cp` or `cloudposse`)"
-  type        = "string"
+  type        = string
 }
 
 variable "stage" {
   description = "Stage (e.g. `prod`, `dev`, `staging`)"
-  type        = "string"
+  type        = string
 }
 
 variable "name" {
-  type        = "string"
+  type        = string
   description = "Application or solution name"
 }
 
 variable "delimiter" {
-  type        = "string"
+  type        = string
   default     = "-"
   description = "Delimiter to be used between `name`, `namespace`, `stage`, `attributes`"
 }
 
 variable "attributes" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "Additional attributes (e.g. `policy` or `role`)"
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   default     = {}
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)"
 }
 
 variable "subnet_names" {
-  type        = "list"
+  type        = list(string)
   description = "List of subnet names (e.g. `['apples', 'oranges', 'grapes']`)"
 }
 
@@ -80,7 +80,7 @@ variable "private_network_acl_id" {
 
 variable "public_network_acl_egress" {
   description = "Egress network ACL rules"
-  type        = "list"
+  type        = list(string)
 
   default = [
     {
@@ -96,7 +96,7 @@ variable "public_network_acl_egress" {
 
 variable "public_network_acl_ingress" {
   description = "Egress network ACL rules"
-  type        = "list"
+  type        = list(string)
 
   default = [
     {
@@ -112,7 +112,7 @@ variable "public_network_acl_ingress" {
 
 variable "private_network_acl_egress" {
   description = "Egress network ACL rules"
-  type        = "list"
+  type        = list(string)
 
   default = [
     {
@@ -128,7 +128,7 @@ variable "private_network_acl_egress" {
 
 variable "private_network_acl_ingress" {
   description = "Egress network ACL rules"
-  type        = "list"
+  type        = list(string)
 
   default = [
     {
@@ -158,7 +158,7 @@ variable "eni_id" {
 }
 
 variable "map_public_ip" {
-  default = "false"
+  default     = "false"
   description = "Optional - Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is false"
 }
 
